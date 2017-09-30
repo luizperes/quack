@@ -21,7 +21,10 @@
  */
 namespace QuackCompiler\Ast\Stmt;
 
+use \QuackCompiler\Intl\Localization;
 use \QuackCompiler\Parser\Parser;
+use \QuackCompiler\Scope\Meta;
+use \QuackCompiler\Scope\ScopeError;
 
 class ReturnStmt extends Stmt
 {
@@ -48,6 +51,13 @@ class ReturnStmt extends Stmt
 
     public function injectScope(&$parent_scope)
     {
+        $meta_label = $parent_scope->getMetaInContext(Meta::M_FN);
+
+        // If meta_label is null, the user is calling 'return' outside a fn
+        if (null === $meta_label) {
+            throw new ScopeError(Localization::message('SCO140', ['^', 'fn']));
+        }
+
         $this->expression->injectScope($parent_scope);
     }
 }

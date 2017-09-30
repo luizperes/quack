@@ -60,14 +60,14 @@ class ContinueStmt extends Stmt
             // If there is no implicit labels in the context, then the user is
             // calling 'continue' outsite a loop.
             if (null === $label) {
-                throw new ScopeError(Localization::message('SCO140', ['continue']));
+                throw new ScopeError(Localization::message('SCO140', ['continue', 'loop']));
             }
         } else {
             $meta_label = $parent_scope->getMetaInContext(Meta::M_LABEL);
 
             // If meta_label is null, the user is calling 'continue' outside a loop
             if (null === $meta_label) {
-                throw new ScopeError(Localization::message('SCO140', ['continue']));
+                throw new ScopeError(Localization::message('SCO140', ['continue', 'loop']));
             }
 
             $label = $parent_scope->lookup($this->label);

@@ -80,6 +80,7 @@ class FnStmt extends Stmt
     {
         $parent_scope->insert($this->signature->name, Kind::K_VARIABLE | Kind::K_FUNCTION);
         $this->scope = new Scope($parent_scope);
+        $this->scope->setMetaInContext(Meta::M_FN, Meta::nextFunctionName());
 
         // Pre-inject parameters
         $this->signature->injectScope($this->scope);
@@ -127,5 +128,11 @@ class FnStmt extends Stmt
             $type = $parameters_types[$i];
             $this->scope->setMeta(Meta::M_TYPE, $parameter, $type);
         }
+    }
+
+    public function getType()
+    {
+      // TODO: Implement getType
+      return 'type';
     }
 }
